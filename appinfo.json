@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "garlan0228@yahoo.com",
+    "longName": "GavinZ WA",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "shortName": "GavinZ WA",
+    "uuid": "282c46cf-145e-4faa-9229-421feaa6a422",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
