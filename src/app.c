@@ -17,16 +17,16 @@ void up_single_click_handler(ClickRecognizerRef recognizer, void *context);
 void down_single_click_handler(ClickRecognizerRef recognizer, void *context);
 void config_provider(Window* window);
 char * int_to_string(int num);
-Window *my_window;
+Window *my_window; 
 TextLayer *text_layer;
 TextLayer *time_layer;
 TextLayer *date_layer;
 TextLayer *mood_layer; 
 TextLayer *batbg_layer;
 TextLayer *batfg_layer;
-char interval_text[]="Break:";
+char *interval_text="Interval: ";
 int interval=30;
-char *mood[]={":)",":(",":D",";)","8D"};
+char *mood[]={"(  ⚆ _ ⚆ )","0 _ 0","°˚\(*-,-)/˚°","(=^_^=)","<(´'_'< )"};
 bool vibration_mode=false;
 int second=30;
 /*mood[0]=":)";
@@ -85,17 +85,17 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(mood_layer));
 
   window_stack_push(my_window, true);
-  display_interval();
+  
   //-------substribe
   battery_state_service_subscribe(battery_state_handler);
   tick_timer_service_subscribe(SECOND_UNIT, minute_tick_handler);
   accel_tap_service_subscribe(accel_tap_handler);
-  //minute_tick_handler(NULL, MINUTE_UNIT);
   battery_state_handler(battery_state_service_peek());
+  window_set_click_config_provider(my_window, (ClickConfigProvider)config_provider);
   update_time();
   update_date();
   set_random_mood();
-  window_set_click_config_provider(my_window, (ClickConfigProvider)config_provider);
+  display_interval();
 }
 void config_provider(Window* window)
 {
@@ -219,45 +219,25 @@ void set_random_mood()
   int index=rand()%5;
   text_layer_set_text(mood_layer, mood[index]);
 }
+void string_copy(char* from,char* to)
+{
+  for(unsigned int i=0;i<=strlen(from);i++)
+    *(to+i)=*(from+i);
+}
 void display_interval()
 {
-  //siprintf(interv, "%d", interval);
   char * num_text=int_to_string(interval);
-  /*
-  char top_text[25];
-  int i=0;
-  while(i<(int)strlen(interval_text))
-  {
-    if(interval_text[i]=='\0')
-      break;
-    else
-    {
-       top_text[i]= interval_text[i];
-    }
-    i++;
-  }
-  int j=0;
-  while(i<25)
-  {
-    if(num_text[j]=='\0'){
-      top_text[i]=num_text[j];
-      break;
-    }
-    else{
-      top_text[i]=num_text[j];
-    }
-    i++;
-    j++;
-  }
-  */
-  text_layer_set_text(text_layer, num_text);
+  char *top_text=malloc(20*sizeof(char));
+  string_copy(interval_text, top_text);
+  strcat(top_text,num_text);
+  text_layer_set_text(text_layer, top_text);
+  free(top_text);
   free(num_text);
-  //free(top_text);
 }
 char * int_to_string(int num)
 {
   int string_size=13;
-  char *temp_arr=(char*)malloc(string_size);
+  char *temp_arr=malloc(string_size*sizeof(char));
   temp_arr[string_size-1]='\0';
   char * pos=temp_arr+string_size-2;
   while(num!=0)

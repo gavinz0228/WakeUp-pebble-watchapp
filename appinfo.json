@@ -7,7 +7,14 @@
     "longName": "GavinZ WA",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/download.2.000.png",
+                "menuIcon": true,
+                "name": "IMAGE_ICON",
+                "type": "png"
+            }
+        ]
     },
     "shortName": "GavinZ WA",
     "uuid": "282c46cf-145e-4faa-9229-421feaa6a422",
